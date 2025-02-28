@@ -7,18 +7,26 @@
 #   #:## a.m. and ##:## a.m.
 #   #:## p.m. and ##:## p.m.
 
+import re
+
 def main():
     
     time = input("What time is it? ")
     
     time = convert(time)
 
+# For Time between 7:00 and 8:00
     if time >= 7 and time <= 8:
         print("breakfast time")
+
+# For Time between 12:00 and 13:00
     elif time >= 12 and time <=13:
         print("lunch time")
+
+# For Time between 18:00 and 19:00
     elif time >= 18 and time <=19:
         print("dinner time")
+
     else:
         return 0
 
@@ -26,7 +34,16 @@ def main():
 
 def convert(time):
     
-    hours, minutes = time.split(":")
+
+# For 12 hour clock, based on multiple delimiter ":" & " "
+    if "a.m." in time or "p.m." in time:
+        hours, minutes, post = re.split(r"[: ]", time)
+        if post == "p.m.":
+            hours = int(hours) + 12
+            
+# For 24 hours, based on single delimiter
+    else:
+        hours, minutes = time.split(":")
 
     new_minutes = float(minutes) / 60
 
